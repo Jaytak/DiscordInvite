@@ -1,0 +1,20 @@
+name: DiscordInvite
+version: '0.1.12'
+main: com.jaytak.discordInvite.DiscordInvite
+api-version: '1.21'
+commands:
+  setdiscord:
+    description: Set the discord link for the server.
+    usage: /setdiscord <link>
+    permission: discordinvite.admin
+  discord:
+    description: Get the discord link for the server.
+    usage: /discord
+    permission: discordinvite.invite
+permissions:
+  discordinvite.admin:
+    description: Allows setting the discord link.
+    default: op
+  discordinvite.invite:
+    description: Allows retreiving the discord link.
+    default: true
