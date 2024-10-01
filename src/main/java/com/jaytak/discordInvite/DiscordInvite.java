@@ -59,15 +59,17 @@ public final class DiscordInvite extends JavaPlugin {
                 sender.sendMessage(playerPrefix + "Usage: /setdiscord <link>");
                 return true;
             }
+            String oldLink = discordLink;
+            discordLink = args[0];
             if (!sender.hasPermission("discordinvite.admin")){
                 sender.sendMessage(playerPrefix + "You do not have permission to use this command.");
+                JTLogger(sender.getName() + " Attempted to change the discord link from " + oldLink + " to " + discordLink + " but did not have permission.");
                 return true;
             }
-            String oldLink = discordLink;
             discordLink = args[0];
             getConfig().set("DiscordLink", discordLink);
             saveConfig();
-            logChange(sender.getName(), oldLink, discordLink);
+            JTLogger(sender.getName() + " Has changed the discord link from " + oldLink + " to " + discordLink);
             sender.sendMessage(playerPrefix + "Discord link has been set to:\n" + discordLink);
             getLogger().info(sender.getName() + " Has changed the discord link to: " + discordLink);
             return true;
@@ -77,6 +79,7 @@ public final class DiscordInvite extends JavaPlugin {
             if (!sender.hasPermission("discordinvite.invite")){
                 sender.sendMessage(playerPrefix + "You do not have permission to use this command.");
                 getLogger().info(sender.getName() + " Requested the discord link, but did not have permission.");
+                JTLogger(sender.getName() + " Requested the discord link, but did not have permission.");
                 return true;
             }
             if (Objects.equals(discordLink, "BLANK-CONFIG")){
@@ -85,25 +88,26 @@ public final class DiscordInvite extends JavaPlugin {
                 }else{
                     sender.sendMessage(playerPrefix + "This server has not yet set its discord link. Contact an admin.");
                 }
+                JTLogger(sender.getName() + " Requested the discord link, but it was not set.");
                 getLogger().info(sender.getName() + " Requested the discord link, but it was not set.");
                 return true;
             }
             sender.sendMessage(playerPrefix + "Join our discord!\n" + discordLink);
             getLogger().info(sender.getName() + " Requested and received the discord invite link!");
-            //sender.sendMessage(playerPrefix + discordLink);
+            JTLogger(sender.getName() + " Requested and received the discord invite link! Link Provided: " + discordLink);
             return true;
         }
         return false;
     }
 
-    private void logChange(String username, String oldLink, String newLink){
+
+    private void JTLogger(String log){
         try(FileWriter writer = new FileWriter(historyFile, true)){
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd:mm:ss"));
-            writer.write("[" + timestamp + "] " + username + " Changed the discord server link from " + oldLink + " to: " + newLink + "\n");
+            writer.write("[" + timestamp + "] " + log + "\n");
         }
         catch (Exception e){
-            getLogger().severe("Failed to save history file.");
-            e.printStackTrace();
+            getLogger().severe(playerPrefix + "Failed to log changes. Exception:\n" + e);
         }
     }
 }
