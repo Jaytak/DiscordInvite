@@ -3,6 +3,8 @@ Simple plugin to allow players to see a servers discord server link.
 
 Supported minecraft versions: Paper/Purpur 1.21, 1.21.1
 
+Download from modrinth: https://modrinth.com/plugin/discord-invite
+
 ## Commands and Permissions
 '/setdiscord aaa.example.xyz'
 
