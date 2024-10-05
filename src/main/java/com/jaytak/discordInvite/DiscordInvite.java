@@ -103,7 +103,7 @@ public final class DiscordInvite extends JavaPlugin {
 
     private void JTLogger(String log){
         try(FileWriter writer = new FileWriter(historyFile, true)){
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd:mm:ss"));
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd:hh:mm:ss"));
             writer.write("[" + timestamp + "] " + log + "\n");
         }
         catch (Exception e){
